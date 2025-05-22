@@ -46,6 +46,7 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.9.4",
+		"@shikijs/rehype": "^3.4.2",
 		"@tanstack/router-plugin": "^1.120.5",
 		"@tauri-apps/cli": "^2",
 		"@types/node": "^22.15.21",

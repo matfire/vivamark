@@ -13,10 +13,10 @@ export default function Editor(props: Props) {
 		[props.onChange],
 	);
 
-	const [refContainer, editorView] = useCodemirror<HTMLDivElement>({
+	const [refContainer] = useCodemirror<HTMLDivElement>({
 		initialDoc: props.initialDoc,
 		onChange: handleChange,
 	});
 
-	return <div ref={refContainer}></div>;
+	return <div className="h-full" ref={refContainer} />;
 }
