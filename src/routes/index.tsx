@@ -27,11 +27,11 @@ function RouteComponent() {
 				<ModeToggle />
 			</div>
 			<ResizablePanelGroup direction="horizontal">
-				<ResizablePanel>
+				<ResizablePanel className="p-4">
 					<Editor initialDoc={doc} onChange={handleDocChange} />
 				</ResizablePanel>
 				<ResizableHandle />
-				<ResizablePanel>
+				<ResizablePanel className="p-4">
 					<Preview doc={doc} />
 				</ResizablePanel>
 			</ResizablePanelGroup>
