@@ -41,6 +41,11 @@ export default function Preview(props: Props) {
 						directiveName: "callout",
 						tagName: "wc-callout",
 					},
+					{
+						type: "leafDirective",
+						directiveName: "youtube",
+						tagName: "wc-youtube",
+					},
 				],
 			})
 			.use(remarkRehype)
@@ -86,7 +91,7 @@ export default function Preview(props: Props) {
 		// }
 	}, [props.doc, handleDataChange]);
 	return (
-		<div className="prose xl:prose-xl">
+		<div className="prose xl:prose-xl dark:prose-invert">
 			<div dangerouslySetInnerHTML={{ __html: data }} />
 		</div>
 	);
