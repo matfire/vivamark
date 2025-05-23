@@ -2,9 +2,13 @@ import { createFileRoute } from "@tanstack/react-router";
 import Editor from "@/components/editor";
 import { useCallback, useState } from "react";
 import Preview from "@/components/preview";
-import { Switch } from "@/components/ui/switch";
 import { ModeToggle } from "@/components/mode-toggle";
 import "@matfire/webcomponents";
+import {
+	ResizableHandle,
+	ResizablePanel,
+	ResizablePanelGroup,
+} from "@/components/ui/resizable";
 
 export const Route = createFileRoute("/")({
 	component: RouteComponent,
@@ -12,7 +16,6 @@ export const Route = createFileRoute("/")({
 
 function RouteComponent() {
 	const [doc, setDoc] = useState("# Hello, World!\n");
-	const [showPreview, setShowPreview] = useState(false);
 
 	const handleDocChange = useCallback((newDoc: string) => {
 		setDoc(newDoc);
@@ -21,11 +24,17 @@ function RouteComponent() {
 	return (
 		<div>
 			<div>
-				<Switch checked={showPreview} onCheckedChange={setShowPreview} />
 				<ModeToggle />
 			</div>
-			<Editor initialDoc={doc} onChange={handleDocChange} />
-			<Preview doc={doc} />
+			<ResizablePanelGroup direction="horizontal">
+				<ResizablePanel>
+					<Editor initialDoc={doc} onChange={handleDocChange} />
+				</ResizablePanel>
+				<ResizableHandle />
+				<ResizablePanel>
+					<Preview doc={doc} />
+				</ResizablePanel>
+			</ResizablePanelGroup>
 		</div>
 	);
 }

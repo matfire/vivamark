@@ -1,7 +1,6 @@
 import * as React from "react";
 import { Outlet, createRootRoute } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
-import { ModeToggle } from "@/components/mode-toggle";
 
 export const Route = createRootRoute({
 	component: RootComponent,

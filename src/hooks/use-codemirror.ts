@@ -46,6 +46,7 @@ const syntaxHighlightingTheme = HighlightStyle.define([
 ]);
 
 const themeCompartment = new Compartment();
+const syntaxHighlightingCompartment = new Compartment();
 
 const useCodemirror = <T extends Element>(
 	props: Props,
@@ -60,9 +61,14 @@ const useCodemirror = <T extends Element>(
 		if (!parentRef.current) return;
 		if (!editorView) return;
 		editorView.dispatch({
-			effects: themeCompartment.reconfigure(
-				theme.theme === "dark" ? catppuccinMocha : catppuccinLatte,
-			),
+			effects: [
+				themeCompartment.reconfigure(
+					theme.theme === "dark" ? catppuccinMocha : catppuccinLatte,
+				),
+				syntaxHighlightingCompartment.reconfigure(
+					syntaxHighlighting(defaultHighlightStyle),
+				),
+			],
 		});
 	}, [theme.theme, editorView]);
 
@@ -77,7 +83,9 @@ const useCodemirror = <T extends Element>(
 				foldGutter(),
 				history(),
 				indentOnInput(),
-				syntaxHighlighting(defaultHighlightStyle),
+				syntaxHighlightingCompartment.of(
+					syntaxHighlighting(defaultHighlightStyle),
+				),
 				bracketMatching(),
 				closeBrackets(),
 				autocompletion(),
