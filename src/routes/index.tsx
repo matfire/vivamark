@@ -1,8 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
-import useCodemirror from "../hooks/use-codemirror";
 import Editor from "@/components/editor";
 import { useCallback, useState } from "react";
 import Preview from "@/components/preview";
+import { Switch } from "@/components/ui/switch";
 
 export const Route = createFileRoute("/")({
 	component: RouteComponent,
@@ -10,6 +10,7 @@ export const Route = createFileRoute("/")({
 
 function RouteComponent() {
 	const [doc, setDoc] = useState("# Hello, World!\n");
+	const [showPreview, setShowPreview] = useState(false);
 
 	const handleDocChange = useCallback((newDoc: string) => {
 		setDoc(newDoc);
@@ -17,7 +18,10 @@ function RouteComponent() {
 
 	return (
 		<div>
-			<Editor initialDoc="# Hello world" onChange={handleDocChange} />
+			<div>
+				<Switch checked={showPreview} onCheckedChange={setShowPreview} />
+			</div>
+			<Editor initialDoc={doc} onChange={handleDocChange} />
 			<Preview doc={doc} />
 		</div>
 	);

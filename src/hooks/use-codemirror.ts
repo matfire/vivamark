@@ -53,6 +53,7 @@ const useCodemirror = <T extends Element>(
 
 	useEffect(() => {
 		if (!parentRef.current) return;
+		if (editorView) return;
 
 		const startState = EditorState.create({
 			doc: initialDoc,
@@ -87,7 +88,7 @@ const useCodemirror = <T extends Element>(
 			parent: parentRef.current,
 		});
 		setEditorView(view);
-	}, [onChange, initialDoc]);
+	}, [onChange, initialDoc, editorView]);
 
 	return [parentRef, editorView];
 };

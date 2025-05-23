@@ -4,39 +4,36 @@ import remarkGfm from "remark-gfm";
 import remarkRehype from "remark-rehype";
 import rehypeShiki from "@shikijs/rehype";
 import rehypeStringify from "rehype-stringify";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 interface Props {
 	doc: string;
 }
 
-const parser = unified()
-	.use(remarkParse)
-	.use(remarkGfm)
-	.use(remarkRehype)
-	.use(rehypeShiki, {
-		themes: {
-			dark: "catppuccin-mocha",
-			light: "catppuccin-latte",
-		},
-	})
-	.use(rehypeStringify);
-
 export default function Preview(props: Props) {
 	const [data, setData] = useState("");
 
-	useEffect(() => {
-		parser
-			.process(props.doc)
-			.then((vf) => setData(vf.toString()))
-			.catch((e) => {
-				console.log(e);
-			});
-	}, [props.doc]);
+	const handleDataChange = useCallback(async (doc: string) => {
+		const res = await unified()
+			.use(remarkParse)
+			.use(remarkGfm)
+			.use(remarkRehype)
+			.use(rehypeShiki, {
+				themes: {
+					dark: "catppuccin-mocha",
+					light: "catppuccin-latte",
+				},
+			})
+			.use(rehypeStringify)
+			.process(doc);
+		setData(res.toString());
+	}, []);
 
+	useEffect(() => {
+		handleDataChange(props.doc);
+	}, [props.doc, handleDataChange]);
 	return (
-		<div>
-			<p>preview goes here</p>
+		<div className="prose xl:prose-xl">
 			<div dangerouslySetInnerHTML={{ __html: data }} />
 		</div>
 	);
