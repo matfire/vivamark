@@ -3,6 +3,7 @@ import Editor from "@/components/editor";
 import { useCallback, useState } from "react";
 import Preview from "@/components/preview";
 import { Switch } from "@/components/ui/switch";
+import { ModeToggle } from "@/components/mode-toggle";
 
 export const Route = createFileRoute("/")({
 	component: RouteComponent,
@@ -20,6 +21,7 @@ function RouteComponent() {
 		<div>
 			<div>
 				<Switch checked={showPreview} onCheckedChange={setShowPreview} />
+				<ModeToggle />
 			</div>
 			<Editor initialDoc={doc} onChange={handleDocChange} />
 			<Preview doc={doc} />

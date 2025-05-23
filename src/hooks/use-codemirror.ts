@@ -1,5 +1,5 @@
 import { type MutableRefObject, useEffect, useRef, useState } from "react";
-import { EditorState } from "@codemirror/state";
+import { Compartment, EditorState } from "@codemirror/state";
 import { EditorView, keymap, lineNumbers } from "@codemirror/view";
 import { defaultKeymap, history, historyKeymap } from "@codemirror/commands";
 import {
@@ -19,6 +19,8 @@ import {
 	closeBracketsKeymap,
 } from "@codemirror/autocomplete";
 import { markdown } from "@codemirror/lang-markdown";
+import { catppuccinLatte, catppuccinMocha } from "@catppuccin/codemirror";
+import { useTheme } from "@/components/theme-provider";
 
 interface Props {
 	initialDoc: string;
@@ -43,13 +45,26 @@ const syntaxHighlightingTheme = HighlightStyle.define([
 	},
 ]);
 
+const themeCompartment = new Compartment();
+
 const useCodemirror = <T extends Element>(
 	props: Props,
 ): [MutableRefObject<T | null>, EditorView?] => {
 	const parentRef = useRef<T>(null);
+	const theme = useTheme();
 	const [editorView, setEditorView] = useState<EditorView>();
 
 	const { onChange, initialDoc } = props;
+
+	useEffect(() => {
+		if (!parentRef.current) return;
+		if (!editorView) return;
+		editorView.dispatch({
+			effects: themeCompartment.reconfigure(
+				theme.theme === "dark" ? catppuccinMocha : catppuccinLatte,
+			),
+		});
+	}, [theme.theme, editorView]);
 
 	useEffect(() => {
 		if (!parentRef.current) return;
@@ -75,6 +90,9 @@ const useCodemirror = <T extends Element>(
 					...completionKeymap,
 					...closeBracketsKeymap,
 				]),
+				themeCompartment.of(
+					theme.theme === "dark" ? catppuccinMocha : catppuccinLatte,
+				),
 				EditorView.lineWrapping,
 				EditorView.updateListener.of((update) => {
 					if (update.changes) {
@@ -88,7 +106,7 @@ const useCodemirror = <T extends Element>(
 			parent: parentRef.current,
 		});
 		setEditorView(view);
-	}, [onChange, initialDoc, editorView]);
+	}, [onChange, initialDoc, editorView, theme.theme]);
 
 	return [parentRef, editorView];
 };
