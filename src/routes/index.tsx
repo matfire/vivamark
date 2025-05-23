@@ -4,6 +4,7 @@ import { useCallback, useState } from "react";
 import Preview from "@/components/preview";
 import { Switch } from "@/components/ui/switch";
 import { ModeToggle } from "@/components/mode-toggle";
+import "@matfire/webcomponents";
 
 export const Route = createFileRoute("/")({
 	component: RouteComponent,

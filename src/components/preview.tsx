@@ -4,6 +4,8 @@ import remarkGfm from "remark-gfm";
 import remarkRehype from "remark-rehype";
 import rehypeShiki from "@shikijs/rehype";
 import rehypeStringify from "rehype-stringify";
+import remarkDirective from "remark-directive";
+import remarkDirectiveToCustomTag from "@matfire/remark-directive-to-custom-tag";
 import PreviewWorker from "@/worker?worker";
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -31,6 +33,16 @@ export default function Preview(props: Props) {
 		const res = await unified()
 			.use(remarkParse)
 			.use(remarkGfm)
+			.use(remarkDirective)
+			.use(remarkDirectiveToCustomTag, {
+				associations: [
+					{
+						type: "containerDirective",
+						directiveName: "callout",
+						tagName: "wc-callout",
+					},
+				],
+			})
 			.use(remarkRehype)
 			.use(rehypeShiki, {
 				themes: {
