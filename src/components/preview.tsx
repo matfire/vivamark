@@ -7,6 +7,8 @@ import rehypeStringify from "rehype-stringify";
 import remarkDirective from "remark-directive";
 import remarkDirectiveToCustomTag from "@matfire/remark-directive-to-custom-tag";
 import { useCallback, useEffect, useState } from "react";
+import { useAtomValue } from "jotai";
+import WebcomponentsAtom from "@/atoms/webcomponents.atom";
 
 interface Props {
 	doc: string;
@@ -14,37 +16,30 @@ interface Props {
 
 export default function Preview(props: Props) {
 	const [data, setData] = useState("");
+	const enabledComponents = useAtomValue(WebcomponentsAtom);
 
-	const handleDataChange = useCallback(async (doc: string) => {
-		const res = await unified()
-			.use(remarkParse)
-			.use(remarkGfm)
-			.use(remarkDirective)
-			.use(remarkDirectiveToCustomTag, {
-				associations: [
-					{
-						type: "containerDirective",
-						directiveName: "callout",
-						tagName: "wc-callout",
+	const handleDataChange = useCallback(
+		async (doc: string) => {
+			const res = await unified()
+				.use(remarkParse)
+				.use(remarkGfm)
+				.use(remarkDirective)
+				.use(remarkDirectiveToCustomTag, {
+					associations: enabledComponents.flatMap((e) => e.components),
+				})
+				.use(remarkRehype)
+				.use(rehypeShiki, {
+					themes: {
+						dark: "catppuccin-mocha",
+						light: "catppuccin-latte",
 					},
-					{
-						type: "leafDirective",
-						directiveName: "youtube",
-						tagName: "wc-youtube",
-					},
-				],
-			})
-			.use(remarkRehype)
-			.use(rehypeShiki, {
-				themes: {
-					dark: "catppuccin-mocha",
-					light: "catppuccin-latte",
-				},
-			})
-			.use(rehypeStringify)
-			.process(doc);
-		setData(res.toString());
-	}, []);
+				})
+				.use(rehypeStringify)
+				.process(doc);
+			setData(res.toString());
+		},
+		[enabledComponents],
+	);
 
 	useEffect(() => {
 		handleDataChange(props.doc);

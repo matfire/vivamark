@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { createRouter, RouterProvider } from "@tanstack/react-router";
 import "./index.css";
+import "@/utils/customElements";
 
 // Import the generated route tree
 import { routeTree } from "./routeTree.gen";
@@ -14,6 +15,12 @@ const router = createRouter({ routeTree });
 declare module "@tanstack/react-router" {
 	interface Register {
 		router: typeof router;
+	}
+}
+
+declare global {
+	interface Window {
+		getDefinedCustomElements: () => Set<string>;
 	}
 }
 
