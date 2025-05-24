@@ -53,9 +53,9 @@ export default function WebcomponentsImporter() {
 			await import(/* @vite-ignore */ moduleUrl);
 			const currentComponents = window.getDefinedCustomElements();
 			const newComponents = currentComponents.difference(previousComponents);
-			if (newComponents.length === 0) {
+			if (Array.from(newComponents).length === 0) {
 				toast.error(
-					"no web components have been loaded from this module, please try again",
+					"no web components have been loaded from this module, please try again (or you might have already loaded this module xD",
 				);
 				setStep("inputUrl");
 				return;
@@ -87,6 +87,9 @@ export default function WebcomponentsImporter() {
 		});
 		toast.success("saved new web components!");
 		setIsOpen(false);
+		setStep("inputUrl");
+		setComponents([]);
+		setModuleUrl("");
 	};
 
 	const handleTypeChange = (
