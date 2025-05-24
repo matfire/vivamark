@@ -53,6 +53,13 @@ export default function WebcomponentsImporter() {
 			await import(/* @vite-ignore */ moduleUrl);
 			const currentComponents = window.getDefinedCustomElements();
 			const newComponents = currentComponents.difference(previousComponents);
+			if (newComponents.length === 0) {
+				toast.error(
+					"no web components have been loaded from this module, please try again",
+				);
+				setStep("inputUrl");
+				return;
+			}
 			console.log("found these new components", newComponents);
 			setComponents(
 				Array.from(newComponents).map((e) => ({
@@ -62,7 +69,10 @@ export default function WebcomponentsImporter() {
 				})),
 			);
 			setStep("addComponents");
-		} catch (error) {}
+		} catch (error) {
+			toast.error("could not load module correctly");
+			setStep("inputUrl");
+		}
 	};
 
 	const handleComponentsAdd = () => {
@@ -103,7 +113,7 @@ export default function WebcomponentsImporter() {
 			<DialogTrigger asChild>
 				<Button>Import Components</Button>
 			</DialogTrigger>
-			<DialogContent>
+			<DialogContent className="max-h-[500px] overflow-y-auto">
 				<DialogHeader>
 					<DialogTitle>Add Webcomponents</DialogTitle>
 					<DialogDescription>
@@ -137,7 +147,7 @@ export default function WebcomponentsImporter() {
 										<TableHead>Tag</TableHead>
 									</TableRow>
 								</TableHeader>
-								<TableBody>
+								<TableBody className="max-h-[500px] overflow-y-auto">
 									{components.map((e, index) => (
 										<TableRow key={e.tagName}>
 											<TableCell>
