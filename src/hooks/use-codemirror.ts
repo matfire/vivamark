@@ -1,7 +1,12 @@
 import { type MutableRefObject, useEffect, useRef, useState } from "react";
 import { Compartment, EditorState } from "@codemirror/state";
 import { EditorView, keymap, lineNumbers } from "@codemirror/view";
-import { defaultKeymap, history, historyKeymap } from "@codemirror/commands";
+import {
+	defaultKeymap,
+	history,
+	historyKeymap,
+	indentWithTab,
+} from "@codemirror/commands";
 import {
 	foldGutter,
 	defaultHighlightStyle,
@@ -97,6 +102,7 @@ const useCodemirror = <T extends Element>(
 					...foldKeymap,
 					...completionKeymap,
 					...closeBracketsKeymap,
+					indentWithTab,
 				]),
 				themeCompartment.of(
 					theme.theme === "dark" ? catppuccinMocha : catppuccinLatte,

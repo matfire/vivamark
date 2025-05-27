@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import Editor from "@/components/editor";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Preview from "@/components/preview";
 import { ModeToggle } from "@/components/mode-toggle";
 // import "@matfire/webcomponents";
@@ -10,6 +10,8 @@ import {
 	ResizablePanelGroup,
 } from "@/components/ui/resizable";
 import WebcomponentsImporter from "@/components/webcomponent-importer";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import FolderSidebar from "@/components/folderSidebar";
 
 export const Route = createFileRoute("/")({
 	component: RouteComponent,
@@ -23,9 +25,10 @@ function RouteComponent() {
 	}, []);
 
 	return (
-		<div>
+		<SidebarProvider>
+			<FolderSidebar />
 			<div>
-				<ModeToggle />
+				<SidebarTrigger />
 				<WebcomponentsImporter />
 			</div>
 			<ResizablePanelGroup direction="horizontal">
@@ -37,6 +40,6 @@ function RouteComponent() {
 					<Preview doc={doc} />
 				</ResizablePanel>
 			</ResizablePanelGroup>
-		</div>
+		</SidebarProvider>
 	);
 }

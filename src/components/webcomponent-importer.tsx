@@ -12,7 +12,7 @@ import {
 } from "./ui/dialog";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
-import WebcomponentsAtom, { type Component } from "@/atoms/webcomponents.atom";
+import WebcomponentsAtom from "@/atoms/webcomponents.atom";
 import {
 	Select,
 	SelectContent,
@@ -30,6 +30,7 @@ import {
 	TableRow,
 } from "./ui/table";
 import { useSetAtom } from "jotai";
+import type { Component } from "@/types/webcomponents";
 
 type ImportStep =
 	| "inputUrl"
