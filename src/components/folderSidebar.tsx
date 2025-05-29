@@ -11,6 +11,7 @@ import {
 } from "./ui/collapsible";
 import { useAtomValue, useSetAtom } from "jotai";
 import fileAtom from "@/atoms/file.atom";
+import Command from "./command";
 
 interface FolderProps {
 	item: FileTreeNode;
@@ -26,7 +27,7 @@ function Folder(props: FolderProps) {
 						<FolderIcon />
 						{props.item.name}
 					</CollapsibleTrigger>
-					<CollapsibleContent>
+					<CollapsibleContent className="space-y-2">
 						{props.item.children?.map((e) => (
 							<Folder key={e.path} item={e} onClick={props.onClick} />
 						))}
@@ -57,9 +58,12 @@ function File(props: FileProps) {
 		<div
 			onKeyDown={() => props.onClick(props.item.path)}
 			onClick={() => props.onClick(props.item.path)}
+			className="w-full flex space-x-4"
 		>
-			<FileIcon />
-			{props.item.name}
+			<div className="flex">
+				<FileIcon />
+				{props.item.name}
+			</div>
 			{isSelected && <Check />}
 		</div>
 	);
@@ -91,10 +95,13 @@ export default function FolderSidebar() {
 		<Sidebar>
 			<SidebarHeader />
 			<SidebarContent className="max-h-full overflow-y-auto">
-				<div>
-					<Button onClick={handleSelectFolder}>Select Folder</Button>
+				<div className="flex flex-col space-y-6 px-4">
+					<Command />
+					<Button className="w-full" onClick={handleSelectFolder}>
+						Select Folder
+					</Button>
+					{tree && <Folder item={tree} onClick={handleSetFile} />}
 				</div>
-				{tree && <Folder item={tree} onClick={handleSetFile} />}
 			</SidebarContent>
 		</Sidebar>
 	);
