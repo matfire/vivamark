@@ -3,7 +3,6 @@ import Editor from "@/components/editor";
 import { useCallback, useEffect, useState } from "react";
 import Preview from "@/components/preview";
 import { useDebounce } from "@uidotdev/usehooks";
-import { ModeToggle } from "@/components/mode-toggle";
 import { writeTextFile } from "@tauri-apps/plugin-fs";
 
 import {
@@ -24,7 +23,7 @@ export const Route = createFileRoute("/")({
 
 function RouteComponent() {
 	const [doc, setDoc] = useState("# Hello, World!\n");
-	const debouncedDoc = useDebounce(doc, 300);
+	const debouncedDoc = useDebounce(doc, 700);
 	const selectedFile = useAtomValue(fileAtom);
 
 	const handleDocChange = useCallback((newDoc: string) => {
