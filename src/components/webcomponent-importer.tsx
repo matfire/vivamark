@@ -29,8 +29,9 @@ import {
 	TableHeader,
 	TableRow,
 } from "./ui/table";
-import { useSetAtom } from "jotai";
+import { useAtom, useSetAtom } from "jotai";
 import type { Component } from "@/types/webcomponents";
+import importerDialogAtom from "@/atoms/importer-dialog.atom";
 
 type ImportStep =
 	| "inputUrl"
@@ -43,7 +44,7 @@ export default function WebcomponentsImporter() {
 	const [step, setStep] = useState<ImportStep>("inputUrl");
 	const [moduleUrl, setModuleUrl] = useState("");
 	const [components, setComponents] = useState<Component[]>([]);
-	const [isOpen, setIsOpen] = useState(false);
+	const [isOpen, setIsOpen] = useAtom(importerDialogAtom);
 	const setComponentAtom = useSetAtom(WebcomponentsAtom);
 
 	const handleModuleLoad = async () => {
@@ -114,9 +115,9 @@ export default function WebcomponentsImporter() {
 
 	return (
 		<Dialog open={isOpen} onOpenChange={setIsOpen}>
-			<DialogTrigger asChild>
-				<Button>Import Components</Button>
-			</DialogTrigger>
+			{/* <DialogTrigger asChild>
+        <Button>Import Components</Button>
+      </DialogTrigger> */}
 			<DialogContent className="max-h-[500px] overflow-y-auto">
 				<DialogHeader>
 					<DialogTitle>Add Webcomponents</DialogTitle>
