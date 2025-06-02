@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Sidebar, SidebarContent, SidebarHeader } from "./ui/sidebar";
 import { Button } from "./ui/button";
 import { open } from "@tauri-apps/plugin-dialog";

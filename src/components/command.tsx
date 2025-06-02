@@ -21,7 +21,7 @@ export default function Command() {
 	};
 
 	useEffect(() => {
-		const handleOpenCommand = (e) => {
+		const handleOpenCommand = (e: KeyboardEvent) => {
 			if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
 				e.preventDefault();
 				setIsOpen((open) => !open);
