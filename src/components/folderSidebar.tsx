@@ -12,7 +12,7 @@ import {
 import { useAtomValue, useSetAtom } from "jotai";
 import fileAtom from "@/atoms/file.atom";
 import Command from "./command";
-import { useLocation, useNavigate, useRouter } from "@tanstack/react-router";
+import { useLocation, useNavigate } from "@tanstack/react-router";
 
 interface FolderProps {
 	item: FileTreeNode;

@@ -10,9 +10,6 @@ import {
 	ResizablePanel,
 	ResizablePanelGroup,
 } from "@/components/ui/resizable";
-import WebcomponentsImporter from "@/components/webcomponent-importer";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import FolderSidebar from "@/components/folderSidebar";
 import { useAtomValue } from "jotai";
 import fileAtom from "@/atoms/file.atom";
 import { toast } from "sonner";
