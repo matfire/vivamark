@@ -46,21 +46,14 @@ function RouteComponent() {
 	}, [debouncedDoc]);
 
 	return (
-		<SidebarProvider>
-			<FolderSidebar />
-			<div>
-				<SidebarTrigger />
-				<WebcomponentsImporter />
-			</div>
-			<ResizablePanelGroup direction="horizontal">
-				<ResizablePanel className="p-4">
-					<Editor initialDoc={doc} onChange={handleDocChange} />
-				</ResizablePanel>
-				<ResizableHandle />
-				<ResizablePanel className="p-4">
-					<Preview doc={doc} />
-				</ResizablePanel>
-			</ResizablePanelGroup>
-		</SidebarProvider>
+		<ResizablePanelGroup direction="horizontal">
+			<ResizablePanel className="p-4">
+				<Editor initialDoc={doc} onChange={handleDocChange} />
+			</ResizablePanel>
+			<ResizableHandle />
+			<ResizablePanel className="p-4">
+				<Preview doc={doc} />
+			</ResizablePanel>
+		</ResizablePanelGroup>
 	);
 }

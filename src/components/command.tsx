@@ -7,17 +7,23 @@ import {
 	CommandItem,
 } from "./ui/command";
 import { Button } from "./ui/button";
-import { Import } from "lucide-react";
+import { Cog, Import } from "lucide-react";
 import { useSetAtom } from "jotai";
 import importerDialogAtom from "@/atoms/importer-dialog.atom";
+import { useNavigate } from "@tanstack/react-router";
 
 export default function Command() {
 	const [isOpen, setIsOpen] = useState(false);
 	const setImporterDialog = useSetAtom(importerDialogAtom);
+	const navigate = useNavigate();
 
 	const handleWebComponentClick = () => {
 		setImporterDialog(true);
 		setIsOpen(false);
+	};
+
+	const handleGoToSettings = () => {
+		navigate({ to: "/settings" });
 	};
 
 	useEffect(() => {
@@ -42,6 +48,10 @@ export default function Command() {
 					<CommandItem onSelect={handleWebComponentClick}>
 						<Import />
 						<span>Import Webcomponents</span>
+					</CommandItem>
+					<CommandItem onSelect={handleGoToSettings}>
+						<Cog />
+						<span>Settings</span>
 					</CommandItem>
 				</CommandList>
 			</CommandDialog>

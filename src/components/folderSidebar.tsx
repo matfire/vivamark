@@ -12,6 +12,7 @@ import {
 import { useAtomValue, useSetAtom } from "jotai";
 import fileAtom from "@/atoms/file.atom";
 import Command from "./command";
+import { useLocation, useNavigate, useRouter } from "@tanstack/react-router";
 
 interface FolderProps {
 	item: FileTreeNode;
@@ -73,6 +74,8 @@ export default function FolderSidebar() {
 	const [_, setSelecedFolder] = useState("");
 	const [tree, setTree] = useState<FileTreeNode | null>(null);
 	const setSelectedFile = useSetAtom(fileAtom);
+	const location = useLocation();
+	const navigate = useNavigate();
 
 	const handleSelectFolder = async () => {
 		const res = await open({
@@ -84,10 +87,12 @@ export default function FolderSidebar() {
 		setSelecedFolder(res);
 		const data = await new FileTreeGenerator().generateFileTree(res);
 		setTree(data);
-		console.log(data);
 	};
 
-	const handleSetFile = (path: string) => {
+	const handleSetFile = async (path: string) => {
+		if (location.pathname !== "/") {
+			await navigate({ to: "/" });
+		}
 		setSelectedFile(path);
 	};
 
