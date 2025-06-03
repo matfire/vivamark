@@ -1,5 +1,6 @@
 [tools]
-node = "latest"
+node = "24"
+rust = "1.87"
 [tasks.pre-commit]
 description = "runs pre-commit hook"
 run = "pnpm lint:staged"
