@@ -7,14 +7,16 @@ import {
 	CommandItem,
 } from "./ui/command";
 import { Button } from "./ui/button";
-import { Cog, Import } from "lucide-react";
+import { Cog, Import, Lightbulb } from "lucide-react";
 import { useSetAtom } from "jotai";
 import importerDialogAtom from "@/atoms/importer-dialog.atom";
 import { useNavigate } from "@tanstack/react-router";
+import { useTheme } from "@/components/theme-provider";
 
 export default function Command() {
 	const [isOpen, setIsOpen] = useState(false);
 	const setImporterDialog = useSetAtom(importerDialogAtom);
+	const theme = useTheme();
 	const navigate = useNavigate();
 
 	const handleWebComponentClick = () => {
@@ -24,6 +26,16 @@ export default function Command() {
 
 	const handleGoToSettings = () => {
 		navigate({ to: "/settings" });
+		setIsOpen(false);
+	};
+
+	const handleThemeChange = () => {
+		if (theme.theme === "light" || theme.theme === "system") {
+			theme.setTheme("dark");
+		} else {
+			theme.setTheme("light");
+		}
+		setIsOpen(false);
 	};
 
 	useEffect(() => {
@@ -52,6 +64,10 @@ export default function Command() {
 					<CommandItem onSelect={handleGoToSettings}>
 						<Cog />
 						<span>Settings</span>
+					</CommandItem>
+					<CommandItem onSelect={handleThemeChange}>
+						<Lightbulb />
+						<span>Toggle Theme</span>
 					</CommandItem>
 				</CommandList>
 			</CommandDialog>
