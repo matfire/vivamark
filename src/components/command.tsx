@@ -7,7 +7,7 @@ import {
 	CommandItem,
 } from "./ui/command";
 import { Button } from "./ui/button";
-import { Cog, Import, Lightbulb } from "lucide-react";
+import { Cog, CommandIcon, Import, Lightbulb } from "lucide-react";
 import { useSetAtom } from "jotai";
 import importerDialogAtom from "@/atoms/importer-dialog.atom";
 import { useNavigate } from "@tanstack/react-router";
@@ -52,7 +52,10 @@ export default function Command() {
 
 	return (
 		<>
-			<Button onClick={() => setIsOpen(true)}>Open</Button>
+			<Button variant="outline" onClick={() => setIsOpen(true)}>
+				<CommandIcon />
+				<span>K</span>
+			</Button>
 			<CommandDialog open={isOpen} onOpenChange={setIsOpen}>
 				<CommandInput placeholder="Type a command or search..." />
 				<CommandList>

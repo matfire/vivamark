@@ -102,8 +102,12 @@ export default function FolderSidebar() {
 			<SidebarContent className="max-h-full overflow-y-auto">
 				<div className="flex flex-col space-y-6 px-4">
 					<Command />
-					<Button className="w-full" onClick={handleSelectFolder}>
-						Select Folder
+					<Button
+						variant="ghost"
+						className="w-full"
+						onClick={handleSelectFolder}
+					>
+						Open Folder
 					</Button>
 					{tree && <Folder item={tree} onClick={handleSetFile} />}
 				</div>
