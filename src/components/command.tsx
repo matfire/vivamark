@@ -5,19 +5,29 @@ import {
 	CommandEmpty,
 	CommandDialog,
 	CommandItem,
+	CommandGroup,
 } from "./ui/command";
 import { Button } from "./ui/button";
-import { Cog, CommandIcon, Import, Lightbulb } from "lucide-react";
+import {
+	Cog,
+	CommandIcon,
+	ImageIcon,
+	Import,
+	Lightbulb,
+	SidebarIcon,
+} from "lucide-react";
 import { useSetAtom } from "jotai";
 import importerDialogAtom from "@/atoms/importer-dialog.atom";
 import { useNavigate } from "@tanstack/react-router";
 import { useTheme } from "@/components/theme-provider";
+import { useSidebar } from "./ui/sidebar";
 
 export default function Command() {
 	const [isOpen, setIsOpen] = useState(false);
 	const setImporterDialog = useSetAtom(importerDialogAtom);
 	const theme = useTheme();
 	const navigate = useNavigate();
+	const { toggleSidebar } = useSidebar();
 
 	const handleWebComponentClick = () => {
 		setImporterDialog(true);
@@ -35,6 +45,11 @@ export default function Command() {
 		} else {
 			theme.setTheme("light");
 		}
+		setIsOpen(false);
+	};
+
+	const handleSidebarChange = () => {
+		toggleSidebar();
 		setIsOpen(false);
 	};
 
@@ -60,18 +75,34 @@ export default function Command() {
 				<CommandInput placeholder="Type a command or search..." />
 				<CommandList>
 					<CommandEmpty>No results found</CommandEmpty>
-					<CommandItem onSelect={handleWebComponentClick}>
-						<Import />
-						<span>Import Webcomponents</span>
-					</CommandItem>
-					<CommandItem onSelect={handleGoToSettings}>
-						<Cog />
-						<span>Settings</span>
-					</CommandItem>
-					<CommandItem onSelect={handleThemeChange}>
-						<Lightbulb />
-						<span>Toggle Theme</span>
-					</CommandItem>
+					<CommandGroup heading="Content Actions">
+						<CommandItem onSelect={handleWebComponentClick}>
+							<Import />
+							<span>Import Webcomponents</span>
+						</CommandItem>
+						<CommandItem>
+							<ImageIcon />
+							<span>Add Gif (from Giphy)</span>
+						</CommandItem>
+						<CommandItem>
+							<ImageIcon />
+							<span>Add Unsplash Image</span>
+						</CommandItem>
+					</CommandGroup>
+					<CommandGroup heading="Settings">
+						<CommandItem onSelect={handleGoToSettings}>
+							<Cog />
+							<span>Go to Settings</span>
+						</CommandItem>
+						<CommandItem onSelect={handleThemeChange}>
+							<Lightbulb />
+							<span>Toggle Theme</span>
+						</CommandItem>
+						<CommandItem onSelect={handleSidebarChange}>
+							<SidebarIcon />
+							<span>Toggle Sidebar</span>
+						</CommandItem>
+					</CommandGroup>
 				</CommandList>
 			</CommandDialog>
 		</>
