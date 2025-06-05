@@ -4,6 +4,7 @@ import type { EditorState } from "@codemirror/state";
 import { useAtomValue } from "jotai";
 import { readTextFile } from "@tauri-apps/plugin-fs";
 import { useCallback, useEffect } from "react";
+import editorViewAtom from "@/atoms/editor-view.atom";
 
 interface Props {
 	initialDoc: string;
@@ -12,12 +13,13 @@ interface Props {
 
 export default function Editor(props: Props) {
 	const selectedFile = useAtomValue(fileAtom);
+	const editorView = useAtomValue(editorViewAtom);
 	const handleChange = useCallback(
 		(state: EditorState) => props.onChange(state.doc.toString()),
 		[props.onChange],
 	);
 
-	const [refContainer, editorView] = useCodemirror<HTMLDivElement>({
+	const [refContainer] = useCodemirror<HTMLDivElement>({
 		initialDoc: props.initialDoc,
 		onChange: handleChange,
 	});

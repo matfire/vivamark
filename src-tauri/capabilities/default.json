@@ -12,6 +12,7 @@
     "fs:default",
     "fs:allow-stat",
     "fs:read-all",
-    "fs:write-all"
+    "fs:write-all",
+    "store:default"
   ]
 }

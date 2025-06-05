@@ -1,4 +1,4 @@
-import { type MutableRefObject, useEffect, useRef, useState } from "react";
+import { type MutableRefObject, useEffect, useRef } from "react";
 import { Compartment, EditorState } from "@codemirror/state";
 import { EditorView, keymap, lineNumbers } from "@codemirror/view";
 import {
@@ -26,6 +26,8 @@ import {
 import { markdown } from "@codemirror/lang-markdown";
 import { catppuccinLatte, catppuccinMocha } from "@catppuccin/codemirror";
 import { useTheme } from "@/components/theme-provider";
+import { useAtom } from "jotai";
+import editorViewAtom from "@/atoms/editor-view.atom";
 
 interface Props {
 	initialDoc: string;
@@ -55,10 +57,10 @@ const syntaxHighlightingCompartment = new Compartment();
 
 const useCodemirror = <T extends Element>(
 	props: Props,
-): [MutableRefObject<T | null>, EditorView?] => {
+): [MutableRefObject<T | null>] => {
 	const parentRef = useRef<T>(null);
 	const theme = useTheme();
-	const [editorView, setEditorView] = useState<EditorView>();
+	const [editorView, setEditorView] = useAtom(editorViewAtom);
 
 	const { onChange, initialDoc } = props;
 
@@ -120,9 +122,9 @@ const useCodemirror = <T extends Element>(
 			parent: parentRef.current,
 		});
 		setEditorView(view);
-	}, [onChange, initialDoc, editorView, theme.theme]);
+	}, [onChange, initialDoc, editorView, theme.theme, setEditorView]);
 
-	return [parentRef, editorView];
+	return [parentRef];
 };
 
 export default useCodemirror;
